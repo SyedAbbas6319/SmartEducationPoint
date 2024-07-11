@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Smart Education Point</title>
+    <link rel="stylesheet" href="styles_about.css">
+    <link rel="stylesheet" href="common1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="common.js"></script> <!-- Include the common.js file -->
+
+
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container1">
+                <h1>Smart Education Point</h1>
+
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="course.html">Courses</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="signin.html">Sign In</a></li>
+                    <li><a href="Signup.html">Sign UP</a></li>
+                    <input type="text" id="searchBar" placeholder="Search...">
+                    <i class="search-icon fas fa-search"></i>
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="about-section">
+            <div class="container">
+                <h2>About Us</h2>
+                <p>Welcome to Smart Education Point's missions is to revolutionize learning by creating inclusive, engaging, and adaptable educational experiences for learners across all stages of life. We're committed to breaking barriers to education, offering dynamic and accessible resources that cater to diverse learning styles and needs. By fostering a culture of curiosity, critical thinking, and innovation, we aim to empower individuals to thrive academically and personally, equipping them with the tools necessary to succeed in an ever-evolving world.</p>
+                <p>Whether you're passionate about technology, science, arts, or any field, we offer a wide range of courses to help you achieve your educational goals.That's fantastic! Offering a diverse array of courses allows for a more inclusive and holistic learning environment. Whether someone's passion lies in the intricacies of technology, the wonders of science, the creativity of arts, or any other field, having a broad selection ensures that learners can explore and pursue their interests while working towards their educational aspirations. This versatility not only supports personal growth but also encourages a well-rounded approach to knowledge acquisition.</p>
+            </div>
+        </section>
+        
+        <section class="contact-section">
+            <div class="container2">
+                <h2>Contact Us</h2>
+                <form id="contactForm" class="contact-form" onsubmit="sendEmail()">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Smart Education Point. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+        emailjs.init("yX3Cf_947EuyhrnLb");
+    </script>
+
+    <script>
+        function sendEmail() {
+            event.preventDefault();
+
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var message = document.getElementById("message").value;
+
+            emailjs.send("service_6m0l1de", "template_uak57ot", {
+                User_Name: name,
+                User_Email: email,
+                message: message
+            })
+                .then(function (response) {
+                    console.log("Email sent successfully:", response);
+                    document.getElementById("contactForm").reset();
+                    alert("Email sent successfully!"); // Displaying an alert
+                }, function (error) {
+                    console.log("Email failed to send:", error);
+                    alert("Failed to send email. Please try again."); // Displaying an alert
+                });
+        }
+    </script>
+
+</body>
+</html>

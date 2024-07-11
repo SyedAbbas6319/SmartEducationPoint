@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Courses</title>
+    <link rel="stylesheet" href="managee_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="container1">
+                <a href="admin.html">
+                    <h1>Admin Dashboard</h1>
+                </a>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../course.html">Courses</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="logout.html">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="manage-courses" class="container">
+            <div>
+                <h3 class="main-heading"><span class="text-blue">Manage Courses</span></h3>
+                <!-- Display added courses -->
+                <div id="addedCourses">
+                    <!-- Course items will be dynamically added here -->
+                </div>
+            </div>
+        </section>
+        <!-- Edit Course Modal -->
+        <div id="editCourseModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Edit Course</h3>
+                <form id="editCourseForm">
+                    <input type="hidden" id="editCourseId">
+                    <label for="editCourseName">Course Name:</label>
+                    <input type="text" id="editCourseName" required>
+                    <label for="editCourseTeacher">Course Teacher:</label>
+                    <input type="text" id="editCourseTeacher" required>
+                    <label for="editCoursePrice">Course Price:</label>
+                    <input type="number" id="editCoursePrice" required>
+                    <label for="editCourseVideo">Video Link:</label>
+                    <input type="text" id="editCourseVideo" required>
+                    <button type="submit">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="fcontainer">
+            <p>&copy; 2024 Smart Education Point. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            // Fetch and display courses
+            $.ajax({
+                url: '../course.php',
+                type: 'POST',
+                success: function (response) {
+                    var addedCourses = $('#addedCourses');
+                    $.each(response.courses, function (index, course) {
+                        var courseItem = $('<div class="course-item">');
+                        var courseIcon = $('<img>').attr('src', course.courseIconPath).attr('alt', course.courseName);
+                        courseItem.append(courseIcon);
+                        courseItem.append('<h4>Course ID: ' + course.courseId + '</h4>');
+                        courseItem.append('<h4>' + course.courseName + '</h4>');
+                        courseItem.append('<p>Teacher: ' + course.courseTeacher + '</p>');
+                        courseItem.append('<p>Video Link: <a href="' + course.videoLecturePath + '" target="_blank">' + course.videoLecturePath + '</a></p>');
+                        if (course.coursePrice > 0) {
+                            courseItem.append('<p>Price: $' + course.coursePrice + '</p>');
+                        } else {
+                            courseItem.append('<p>Price: Free</p>');
+                        }
+                        // Add edit and delete buttons
+                        courseItem.append('<button onclick="editCourse(' + course.courseId + ', \'' + course.courseName + '\', \'' + course.courseTeacher + '\', ' + course.coursePrice + ', \'' + course.videoLecturePath + '\')">Edit</button>');
+                        courseItem.append('<button onclick="deleteCourse(' + course.courseId + ')">Delete</button>');
+                        addedCourses.append(courseItem);
+                    });
+                },
+                error: function (error) {
+                    console.error('Error fetching added courses:', error);
+                }
+            });
+
+            // Event listener for form submission
+            $('#editCourseForm').on('submit', function (e) {
+                e.preventDefault();
+                var courseId = $('#editCourseId').val();
+                var courseName = $('#editCourseName').val();
+                var courseTeacher = $('#editCourseTeacher').val();
+                var coursePrice = $('#editCoursePrice').val();
+                var courseVideo = $('#editCourseVideo').val(); // Ensure this ID matches the form field for videoLecturePath
+
+                $.ajax({
+                    url: 'update_course.php',
+                    type: 'POST',
+                    data: {
+                        courseId: courseId,
+                        courseName: courseName,
+                        courseTeacher: courseTeacher,
+                        coursePrice: coursePrice,
+                        videoLecturePath: courseVideo // Ensure this matches the expected field name in PHP
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            // Hide the modal
+                            $('#editCourseModal').hide();
+                            // Reload the page after successful update
+                            location.reload();
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating course:', xhr, status, error);
+                        alert('Error updating course. Please try again later.');
+                    }
+                });
+            });
+
+
+
+            // Close the modal when the close button is clicked
+            $('.close').on('click', function () {
+                $('#editCourseModal').hide();
+            });
+
+            // Close the modal when clicking outside of the modal content
+            $(window).on('click', function (event) {
+                if ($(event.target).is('#editCourseModal')) {
+                    $('#editCourseModal').hide();
+                }
+            });
+        });
+
+        function editCourse(courseId, courseName, courseTeacher, coursePrice, courseVideo) {
+            $('#editCourseId').val(courseId);
+            $('#editCourseName').val(courseName);
+            $('#editCourseTeacher').val(courseTeacher);
+            $('#editCoursePrice').val(coursePrice);
+            $('#editCourseVideo').val(courseVideo);
+            $('#editCourseModal').show();
+        }
+
+        function deleteCourse(courseId) {
+            if (confirm("Are you sure you want to delete this course?")) {
+                // Send AJAX request to delete the course
+                $.ajax({
+                    url: 'delete_course.php',
+                    type: 'POST',
+                    data: { courseId: courseId },
+                    success: function (response) {
+                        // Reload the page after successful deletion
+                        location.reload();
+                    },
+                    error: function (error) {
+                        console.error('Error deleting course:', error);
+                        alert('Error deleting course. Please try again later.');
+                    }
+                });
+            }
+        }
+    </script>
+
+    
+</body>
+
+</html>

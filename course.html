@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Education Point</title>
+    <link rel="stylesheet" href="courtyles1.css">
+    <link rel="stylesheet" href="common1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="common.js"></script> <!-- Include the common.js file -->
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="container1">
+                <h1>Smart Education Point</h1>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="course.html">Courses</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="signin.html">Sign In</a></li>
+                    <li><a href="Signup.html">Sign UP</a></li>
+                    <input type="text" id="searchBar" placeholder="Search...">
+                    <i class="search-icon fas fa-search"></i>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <section id="courses" class="container">
+        <div>
+            <h3 class="main-heading"><span class="text-blue">Courses</span></h3>
+            <div class="col-md-12 courses-list pop_exams" id="coursesList">
+                <!-- Course items will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="fcontainer">
+            <p>&copy; 2024 Smart Education Point. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+        $(document).ready(function () {
+            // Function to fetch and display courses
+            function fetchCourses() {
+                $.ajax({
+                    url: 'course.php', // Path to your PHP file that fetches courses
+                    type: 'GET',
+                    success: function (response) {
+                        var coursesList = $('#coursesList');
+                        coursesList.empty(); // Clear existing courses before appending new ones
+                        $.each(response.courses, function (index, course) {
+                            var courseItem = '<div class="course-item">';
+                            courseItem += '<img src="' + course.courseIconPath + '" alt="' + course.courseName + '">';
+                            courseItem += '<div class="course-details">';
+                            courseItem += '<h4>' + course.courseName + '</h4>';
+                            courseItem += '<p>Teacher: ' + course.courseTeacher + '</p>';
+                            // Display "Watch Now" button for video link or uploaded video
+                            courseItem += '<p><button class="watch-now-btn" data-video-link="' + course.videoLecturePath + '">Watch Now</button></p>';
+                            if (course.coursePrice > 0) {
+                                courseItem += '<p>Price: $' + course.coursePrice + '</p>';
+                            } else {
+                                courseItem += '<p>Price: Free</p>';
+                            }
+                            courseItem += '</div>'; // Close course-details
+                            courseItem += '</div>'; // Close course-item
+                            coursesList.append(courseItem);
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Error fetching courses:', error);
+                    }
+                });
+            }
+
+            // Event listener for "Watch Now" button clicks
+            $(document).on('click', '.watch-now-btn', function () {
+                var videoLink = $(this).data('video-link');
+                if (videoLink.startsWith('http') || videoLink.startsWith('https')) {
+                    // Open video link in a new tab
+                    window.open(videoLink, '_blank');
+                } else {
+                    // Redirect to video_player.html with the video link as a query parameter
+                    window.location.href = 'video_player.html?video=' + encodeURIComponent(videoLink);
+                }
+            });
+
+            // Fetch courses when the page loads
+            fetchCourses();
+        });
+    </script>
+</body>
+
+</html>

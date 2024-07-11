@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Course</title>
+    <link rel="stylesheet" href="admin_add.css">
+    
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="container1">
+                <a href="admin.html">
+                    <h1>Admin Dashboard</h1>
+                </a>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="../course.html">Courses</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="logout.html">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+
+        <!-- Display success message -->
+        <div id="successMessage" class="successMessage" style="display: none;">
+            <p>Course added successfully!</p>
+        </div>
+
+        <!-- Display PHP error message -->
+        <div id="errorMessage" class="errorMessage" style="display: none;">
+            <p><?php echo isset($errorMessage) ? $errorMessage : ''; ?></p>
+        </div>
+
+        <section id="add-course" class="container">
+            <div>
+                <h3 class="main-heading"><span class="text-blue">Add Course</span></h3>
+                <!-- Add course form -->
+                <form id="addCourseForm" action="../course.php" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="courseIcon">Course Icon Path:</label>
+                        <input type="file" id="courseIcon" name="courseIconPath" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseName">Course Name:</label>
+                        <input type="text" id="courseName" name="courseName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseTeacher">Course Teacher:</label>
+                        <input type="text" id="courseTeacher" name="courseTeacher" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" id="videoLinkOption" name="videoOption" value="link" checked>
+                        <label for="videoLinkOption">Video Link</label>
+                        <input type="radio" id="videoUploadOption" name="videoOption" value="upload">
+                        <label for="videoUploadOption">Video Upload</label>
+                    </div>
+                    <div class="form-group" id="videoLinkField">
+                        <label for="videoLectureLink">Video Lecture Link:</label>
+                        <input type="url" id="videoLectureLink" name="videoLectureLink">
+                    </div>
+                    <div class="form-group" id="videoUploadField" style="display: none;">
+                        <label for="videoLectureFile">Video Lecture File:</label>
+                        <input type="file" id="videoLectureFile" name="videoLectureFile">
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="isPaid" name="isPaid">
+                        <label for="isPaid">Paid Course</label>
+                    </div>
+                    <div class="form-group" id="priceField" style="display: none;">
+                        <label for="coursePrice">Price:</label>
+                        <input type="number" id="coursePrice" name="coursePrice">
+                    </div>
+                    <button type="submit">Add Course</button>
+                </form>
+            </div>
+        </section>
+       
+    </main>
+    <footer>
+        <div class="fcontainer">
+            <p>&copy; 2024 Smart Education Point. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <link rel="stylesheet" href="videostyles.css">
+    <link rel="stylesheet" href="common1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="container1">
+                <h1>Smart Education Point</h1>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="course.html">Courses</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="signin.html">Sign In</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                    <input type="text" id="searchBar" placeholder="Search...">
+                    <i class="search-icon fas fa-search"></i>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="video-container">
+            <video controls>
+                <source id="videoSource" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </main>
+
+    <footer>
+        <div class="fcontainer">
+            <p>&copy; 2024 Smart Education Point. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Get the video URL from the query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get('video');
+
+        // Set the video source
+        document.getElementById('videoSource').src = videoUrl;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,162 @@
+/* admin_styles.css */
+
+/* Global styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.container1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Header styles */
+header {
+    background-color: dodgerblue;
+    color: #fff;
+    padding: 10px 0;
+}
+
+header h1 {
+    margin-left: 60px;
+    text-align: center;
+}
+
+header nav {
+    margin-right: 60px;
+}
+
+nav ul {
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+/* Main content styles */
+main {
+    flex: 1;
+}
+
+#add-course {
+    margin-top: 50px;
+}
+
+.main-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Form styles */
+form {
+    max-width: 500px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+input[type="url"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    margin-right: 50px;
+    background-color: dodgerblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer styles */
+footer {
+    margin-top: 20px;
+    background-color: dodgerblue;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.fcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Success message style */
+.successMessage {
+    margin-top: 10px;
+    color: #2ecc71; /* Green color */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+    text-align: center;
+    animation: slideDown 0.5s ease; /* Add animation effect */
+}
+
+/* Error message style */
+.errorMessage {
+    margin-top: 10px;
+    color: #e74c3c; /* Red color */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+    text-align: center;
+    animation: slideDown 0.5s ease; /* Add animation effect */
+}
+
+/* Animation keyframes */
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
